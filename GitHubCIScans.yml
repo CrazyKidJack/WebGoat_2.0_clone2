@@ -61,7 +61,7 @@ jobs:
   - task: SnykSecurityScan@0
     displayName: Snyk CICD scan (no reachable vuln analysis)
     inputs:
-      serviceConnectionEndpoint: 'SnykAuth'
+      serviceConnectionEndpoint: 'Snyk (ASM)'
       testType: 'app'
       monitorOnBuild: true
       failOnIssues: false
