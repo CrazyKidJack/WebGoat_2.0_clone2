@@ -11,7 +11,7 @@ jobs:
   - script: |
       curl -LJO https://github.com/whitesource/unified-agent-distribution/releases/latest/download/wss-unified-agent.jar
       echo UA downloaded successfully
-      java -jar ./wss-unified-agent.jar -noConfig true -d ./ -apiKey 4384ec56c4df4888a0465b48aeac0075c514ebd76b704630938e7dae0980f122 -product GH_WebGoat_2.0_clone2_CICD -project GH_WebGoat_2.0_clone2_CICD
+      java -jar ./wss-unified-agent.jar -noConfig true -d ./ -apiKey  -product GH_WebGoat_2.0_clone2_CICD -project GH_WebGoat_2.0_clone2_CICD
     displayName: 'UA download an run NO Prioritize'
 
 - job: WhiteSourcePrioritize
@@ -31,7 +31,7 @@ jobs:
 
   - script: |
       cat <<EOF > eua.config
-      apiKey=4384ec56c4df4888a0465b48aeac0075c514ebd76b704630938e7dae0980f122
+      apiKey=
       productName=GH_WebGoat_2.0_clone2_CICD
       projectName=GH_WebGoat_2.0_clone2_CICD
       enableImpactAnalysis=true
