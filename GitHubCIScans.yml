@@ -5,54 +5,6 @@ pool:
   vmImage: ubuntu-latest
 
 jobs:
-- job: WhiteSourceNoPrioritize
-  displayName: WhiteSource No Prioritize
-  steps:
-  - script: |
-      curl -LJO https://github.com/whitesource/unified-agent-distribution/releases/latest/download/wss-unified-agent.jar
-      echo UA downloaded successfully
-      java -jar ./wss-unified-agent.jar -noConfig true -d ./ -apiKey  -product GH_WebGoat_2.0_clone2_CICD -project GH_WebGoat_2.0_clone2_CICD
-    displayName: 'UA download an run NO Prioritize'
-
-- job: WhiteSourcePrioritize
-  displayName: WhiteSource WITH Prioritize
-  steps:
-  - task: Maven@3
-    inputs:
-      mavenPomFile: 'pom.xml'
-      goals: 'install'
-      publishJUnitResults: false
-      testResultsFiles: '**/surefire-reports/TEST-*.xml'
-      javaHomeOption: 'JDKVersion'
-      mavenVersionOption: 'Default'
-      mavenAuthenticateFeed: false
-      effectivePomSkip: false
-      sonarQubeRunAnalysis: false
-
-  - script: |
-      cat <<EOF > eua.config
-      apiKey=
-      productName=GH_WebGoat_2.0_clone2_CICD
-      projectName=GH_WebGoat_2.0_clone2_CICD
-      enableImpactAnalysis=true
-      requireKnownSha1=false
-      resolveAllDependencies=false
-      maven.resolveDependencies=true
-      maven.aggregateModules=true
-      fileSystemScan=false
-      EOF
-      cat eua.config
-      echo config created successfully
-      curl -LJO https://github.com/whitesource/unified-agent-distribution/releases/latest/download/wss-unified-agent.jar
-      curl -o xModuleAnalyzer.jar https://unified-agent.s3.amazonaws.com/xModuleAnalyzer/xModuleAnalyzer-21.4.1.jar
-      echo UA downloaded successfully
-      java -jar wss-unified-agent.jar -d ./ -analyzeMultiModule multimodule.txt
-      sed -i 's/AppPath4=/AppPath4=\/webgoat-server\/target\/webgoat-server-v8.0.0.jar/1' multimodule.txt
-      echo 'multimodule.txt contents'
-      cat multimodule.txt
-      java -jar xModuleAnalyzer.jar -xModulePath multimodule.txt -fsaJarPath ./wss-unified-agent.jar -c ./eua.config -aggregateModules true
-    displayName: 'xModuleAnalyzer & UA download and run WITH Prioritize'
-
 - job: Snyk
   displayName: Snyk
   pool:
@@ -68,3 +20,12 @@ jobs:
       projectName: 'ASMSecOpsPipline/WebGoat_2.0_clone2'
       organization: 'b24da5d1-9780-42dc-9f98-ee5427018f57'
       additionalArguments: --all-projects
+  - task: SnykSecurityScan@1
+    inputs:
+      serviceConnectionEndpoint: 'Snyk (ASM)'
+      testType: 'app'
+      monitorWhen: 'always'
+      failOnIssues: false
+      projectName: 'ASMSecOpsPipline/WebGoat_2.0_clone2'
+      organization: 'b24da5d1-9780-42dc-9f98-ee5427018f57'
+      additionalArguments: '--all-projects'
