@@ -19,7 +19,6 @@ jobs:
       failOnIssues: false
       projectName: 'ASMSecOpsPipline/WebGoat_2.0_clone2'
       organization: 'b24da5d1-9780-42dc-9f98-ee5427018f57'
-      additionalArguments: --all-projects
   - task: SnykSecurityScan@1
     inputs:
       serviceConnectionEndpoint: 'Snyk (ASM)'
@@ -28,4 +27,3 @@ jobs:
       failOnIssues: false
       projectName: 'ASMSecOpsPipline/WebGoat_2.0_clone2'
       organization: 'b24da5d1-9780-42dc-9f98-ee5427018f57'
-      additionalArguments: '--all-projects'
