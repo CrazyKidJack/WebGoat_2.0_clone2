@@ -22,11 +22,11 @@ jobs:
   - task: SnykSecurityScan@1
     inputs:
       serviceConnectionEndpoint: 'Snyk (ASM)'
-      testType: 'app'
-      monitorWhen: 'always'
-      failOnIssues: false
-      projectName: 'ASMSecOpsPipline/WebGoat_2.0_clone2'
-      organization: 'b24da5d1-9780-42dc-9f98-ee5427018f57'
+      testType: 'blahblahblah'
+      monitorWhen: 'blahblahblah'
+      failOnIssues: blahblahblah
+      projectName: 'blahblahblah'
+      organization: 'blahblahblah'
   - task: SnykSecurityScan@1
     inputs:
       serviceConnectionEndpoint: 'Snyk (ASM)'
